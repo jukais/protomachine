@@ -1,0 +1,26 @@
+{
+  "name": "protomachine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS=--experimental-sqlite node --watch src/server.js ",
+    "test": "cross-env NODE_OPTIONS=--experimental-sqlite vitest",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "htmx.org": "^1.9.12",
+    "koa": "^2.15.3",
+    "koa-static": "^5.0.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "standard": "^17.1.2",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.2"
+  }
+}

@@ -1,5 +1,6 @@
-import { SimpleApp } from './app.js'
 import path from 'path'
+
+import { SimpleApp } from './app.js'
 
 const rootFolder = process.cwd()
 console.log(`Server started in root folder: ${rootFolder}`)

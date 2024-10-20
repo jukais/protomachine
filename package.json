@@ -3,24 +3,32 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--experimental-sqlite node --watch src/server.js ",
-    "test": "cross-env NODE_OPTIONS=--experimental-sqlite vitest",
-    "lint": "standard",
-    "lint:fix": "standard --fix"
+    "start": "cross-env NODE_OPTIONS=--experimental-sqlite node --watch-path './src' ./src/server.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-sqlite node --watch --test './src/**/*.test.js'",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@lowlighter/matcha": "^3.0.0",
     "cross-env": "^7.0.3",
+    "handlebars": "^4.7.8",
     "htmx.org": "^1.9.12",
     "koa": "^2.15.3",
+    "koa-body": "^6.0.1",
     "koa-static": "^5.0.0"
   },
   "type": "module",
   "devDependencies": {
-    "standard": "^17.1.2",
-    "supertest": "^7.0.0",
-    "vitest": "^2.1.2"
+    "@eslint/js": "^9.13.0",
+    "eslint": "^8.57.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.6.0",
+    "globals": "^15.11.0",
+    "supertest": "^7.0.0"
   }
 }

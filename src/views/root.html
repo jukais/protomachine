@@ -1,0 +1,13 @@
+<form>
+  <fieldset>
+    <legend>Textual</legend>
+    <label for="key">Key</label>
+    <input type="text" id="key" name="key" required>
+    <label for="value">Value</label>
+    <input type="text" id="value" name="value">
+  </fieldset>
+    <button type="submit" hx-post="/api/insert" hx-include="#key, #value" hx-target="#response">
+      Click me
+    </button>
+</form>
+<div id="response"></div>

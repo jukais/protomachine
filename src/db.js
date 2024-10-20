@@ -1,5 +1,6 @@
 // Vite didn't support just importing sqlite
 import { createRequire } from 'node:module'
+
 const require = createRequire(import.meta.url)
 const { DatabaseSync } = require(
   'node:sqlite'
@@ -16,8 +17,12 @@ export class Database {
         ) STRICT
       `)
 
-    this.insertStmt = this.database.prepare('INSERT INTO data (key, value) VALUES (?, ?)')
-    this.queryStmt = this.database.prepare('SELECT * FROM data ORDER BY key')
+    this.insertStmt = this.database.prepare(
+      'INSERT INTO data (key, value) VALUES (?, ?)'
+    )
+    this.queryStmt = this.database.prepare(
+      'SELECT * FROM data ORDER BY key'
+    )
   }
 
   async insert ({ key, value }) {

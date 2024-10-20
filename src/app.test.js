@@ -1,29 +1,36 @@
-import { describe, it, expect } from 'vitest'
+import { test, describe } from 'node:test'
+import assert from 'node:assert'
 import request from 'supertest'
+
 import { SimpleApp } from './app.js'
 
 // Tests
 describe('Koa Server', () => {
   const { app } = new SimpleApp(':memory:')
 
-  it('should return the main page', async () => {
+  test.it('should return the main page', async () => {
     const { status, type, text } = await request(app.callback()).get('/')
-    expect(status).toBe(200)
-    expect(type).toBe('text/html')
-    expect(text).toContain('<h1>Hello, Koa!</h1>')
+
+    assert.strictEqual(status, 200)
+    assert.strictEqual(type, 'text/html')
+    assert.match(text, /<!DOCTYPE html>/)
   })
 
-  it('should return hello from HTMX', async () => {
-    const { status, type, text } = await request(app.callback()).get('/hello')
-    expect(status).toBe(200)
-    expect(type).toBe('text/plain')
-    expect(text).toMatch('Hello from HTMX!')
+  test.it('should return hello from HTMX', async () => {
+    const { status, type, text } = await request(app.callback())
+      .post('/api/insert')
+      .send({ key: 'htmx', value: 'Hello from HTMX!' })
+
+    assert.strictEqual(status, 200)
+    assert.strictEqual(type, 'text/plain')
+    assert.match(text, /Hello from HTMX!/)
   })
 
-  it('should return 404 for unknown routes', async () => {
+  test.it('should return 404 for unknown routes', async () => {
     const { status, type, text } = await request(app.callback()).get('/unknown')
-    expect(status).toBe(404)
-    expect(type).toBe('text/html')
-    expect(text).toContain('Page Not Found')
+
+    assert.strictEqual(status, 404)
+    assert.strictEqual(type, 'text/html')
+    assert.match(text, /Page Not Found/)
   })
 })

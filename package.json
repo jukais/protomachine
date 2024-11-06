@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--experimental-sqlite node --watch-path './src' ./src/server.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-sqlite node --watch --test './src/**/*.test.js'",
+    "start": "cross-env node --watch-path './src' ./src/server.js",
+    "test": "vitest",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix"
   },
@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@lowlighter/matcha": "^3.0.0",
+    "better-sqlite3": "^11.5.0",
     "cross-env": "^7.0.3",
     "handlebars": "^4.7.8",
     "htmx.org": "^1.9.12",
@@ -29,6 +30,7 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.6.0",
     "globals": "^15.11.0",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.4"
   }
 }

@@ -58,24 +58,27 @@ const views = {
 }
 
 export class SimpleApp {
+  #database
+  #app
   constructor (dbLocation) {
-    this.database = new Database(dbLocation)
+    this.#database = new Database(dbLocation)
+    this.#app = new Koa()
 
-    this.app = new Koa()
+    this.#app.use(serve(path.join('./node_modules/htmx.org/dist/')))
+    this.#app.use(serve(path.join('./node_modules/@lowlighter/matcha/dist/')))
+    this.#app.use(koaBody())
 
-    this.app.use(serve(path.join('./node_modules/htmx.org/dist/')))
-    this.app.use(serve(path.join('./node_modules/@lowlighter/matcha/dist/')))
-    this.app.use(koaBody())
-
-    this.app.use(async (ctx, next) => {
+    this.#app.use((ctx, next) => {
       console.dir(ctx.path)
       if (ctx.path.startsWith('/api')) {
         ctx.type = 'text/plain'
         switch (ctx.path) {
           case '/api/insert':
             try {
-              await this.database.insert(ctx.request.body)
-              ctx.body = (await this.database.query())
+              this.#database.insert(ctx.request.body)
+              const all = this.#database.query()
+              console.dir(all)
+              ctx.body = all
                 .map(row => `${row.key}: ${row.value}`)
                 .join('\n<br/>')
             } catch (error) {
@@ -86,11 +89,11 @@ export class SimpleApp {
             throw new Error('Unknown route')
         }
       } else {
-        await next()
+        next()
       }
     })
 
-    this.app.use(async ctx => {
+    this.#app.use(async ctx => {
       ctx.type = 'html'
       switch (ctx.path) {
         case '/':
@@ -108,7 +111,7 @@ export class SimpleApp {
 
   async listen (port) {
     return new Promise((resolve, reject) => {
-      const server = this.app.listen(port, () => {
+      const server = this.#app.listen(port, () => {
         console.log(`Server running on http://localhost:${port}`)
         resolve(server)
       })
@@ -116,6 +119,6 @@ export class SimpleApp {
   }
 
   async close () {
-    await this.app.close()
+    await this.#app.close()
   }
 }
